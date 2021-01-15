@@ -1,0 +1,38 @@
+{
+  "name": "main-product-review",
+  "version": "1.0.0",
+  "description": "Clone the Lego page review module.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/index.js",
+    "react-dev": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fanhuanliang/Main-Product-Review.git"
+  },
+  "keywords": [],
+  "author": "Nick Fan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fanhuanliang/Main-Product-Review/issues"
+  },
+  "homepage": "https://github.com/fanhuanliang/Main-Product-Review#readme",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.15.0",
+    "webpack-cli": "^4.3.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.0",
+    "jquery": "^3.1.1",
+    "mysql": "^2.13.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  }
+}
