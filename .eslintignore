@@ -1,0 +1,10 @@
+**/node_modules
+**/bower_components
+**/lib
+**/vendor
+**/*.min.js
+**/*bundle.js
+**/*.js
+**/.DS_Store
+**/database/config
+**/dummydatagenerator.js
