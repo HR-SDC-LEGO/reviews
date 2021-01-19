@@ -8,7 +8,7 @@ CREATE TABLE reviewList (
   id INT NOT NULL AUTO_INCREMENT,
   date_create DATE NOT NULL,
   overall_rate INT NOT NULL,
-  username VARCHAR(2555) NOT NULL,
+  username VARCHAR(255) NOT NULL,
   age INT(200) NOT NULL,
   recommend BOOLEAN,
   purchase_for VARCHAR(255),

@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   entry: path.resolve(__dirname, 'client', 'src', 'index.js'),
   output: {
     path: path.resolve(__dirname, 'client', 'dist'),
@@ -18,13 +18,14 @@ module.exports = {
           options: {
             presets: [
               ['@babel/preset-env', {
-                "targets": "defaults"
+                'targets': 'defaults'
               }],
-              '@babel/preset-react'
+              '@babel/preset-react', {
+                'plugins': ['@babel/plugin-proposal-class-properties']}
             ]
           }
         }]
       }
     ]
   }
-}
+};

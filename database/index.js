@@ -10,34 +10,48 @@ const connection = mysql.createConnection({
 
 connection.connect();
 
-var getColosseumData = (callback) => {
-  connection.query('SELECT * FROM users', (err, data) => {
+var getReviewsData = (product_id, callback) => {
+  connection.query('SELECT * FROM reviewList WHERE product_id = ?', product_id, (err, data) => {
     if (err) {
       callback(err);
     } else {
       callback(null, data);
     }
-  })
+  });
 };
 
-var insertColosseumData = (fakeData, callback) => {
-  // console.log(fakeData)
-
-  for (let data of fakeData) {
-    var key = Object.keys(data)[0]
-    var arrData = data[key];
-    for (let eachData of arrData) {
-      connection.query(`INSERT INTO ${key} SET ?`, eachData, (err, results) => {
-        if (err) {
-          callback(err);
-        } else {
-          callback(null, results);
-        }
-      })
+var updateData = (data, callback) => {
+  var helpfulData = data[0].helpful_yes || data[0].helpful_no;
+  var updateKey = Object.keys(data[0])[0];
+  connection.query(`UPDATE reviewList SET ${updateKey} = ? WHERE id = ?`, [helpfulData, data[1]], (err, results) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(results);
     }
-  }
+  });
 };
+
+
 module.exports = {
-  getColosseumData,
-  insertColosseumData,
-}
+  getReviewsData,
+  updateData
+};
+
+
+
+// var insertColosseumData = (fakeData, callback) => {
+//   for (let data of fakeData) {
+//     var key = Object.keys(data)[0]
+//     var arrData = data[key];
+//     for (let eachData of arrData) {
+//       connection.query(`INSERT INTO ${key} SET ?`, eachData, (err, results) => {
+//         if (err) {
+//           callback(err);
+//         } else {
+//           callback(null, results);
+//         }
+//       })
+//     }
+//   }
+// };

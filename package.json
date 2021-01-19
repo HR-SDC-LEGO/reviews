@@ -4,7 +4,7 @@
   "description": "Clone the Lego page review module.",
   "main": "index.js",
   "scripts": {
-    "test-jest": "jest",
+    "test": "jest",
     "start": "nodemon server/index.js",
     "build": "webpack --watch"
   },
@@ -21,6 +21,8 @@
   "homepage": "https://github.com/fanhuanliang/Main-Product-Review#readme",
   "devDependencies": {
     "@babel/core": "^7.12.10",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-syntax-jsx": "^7.12.1",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "babel-loader": "^8.2.2",
@@ -28,16 +30,13 @@
     "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^7.18.0",
     "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "jest": "^26.6.3",
-    "prettier": "^2.2.1",
     "webpack": "^5.15.0",
     "webpack-cli": "^4.3.1"
   },
@@ -48,7 +47,8 @@
     "faker": "^5.1.0",
     "jquery": "^3.1.1",
     "mysql": "^2.13.0",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "npm": "^6.14.11",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   }
 }
