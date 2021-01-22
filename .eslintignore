@@ -4,7 +4,7 @@
 **/vendor
 **/*.min.js
 **/*bundle.js
-**/*.js
+# **/*.js
 **/.DS_Store
 **/database/config
 **/dummydatagenerator.js

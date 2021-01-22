@@ -1,11 +1,12 @@
 const faker = require('faker');
+const moment = require('moment');
 
 function generateReviews() {
   var reviews = []
   for (var i = 1; i < 6; i++) {
     var reviewNumber = Math.floor(Math.random() * 20 + 30)
     for (var j = 1; j < reviewNumber; j++) {
-      var dateCreate = faker.date.past();
+      var dateCreate = moment(faker.date.past()).format('LL');
       var overallRating = faker.random.number({ 'min': 1, 'max': 5 });
       var userName = faker.internet.userName();
       var age = faker.random.number({ 'min': 1, 'max': 7 });
@@ -13,18 +14,16 @@ function generateReviews() {
       var purchaseFor = faker.name.firstName();
       var title = faker.name.title();
       var content = faker.lorem.paragraphs();
-      var playExperience = faker.random.number({ 'min': 0, 'max': 5 });
+      var playExperience = faker.random.number({ 'min': 1, 'max': 5 });
       var levelDifficulty = faker.random.number({ 'min': 1, 'max': 5 });
       var valueForMoney = faker.random.number({ 'min': 1, 'max': 5 });
-      var buildTime = faker.random.number({ 'min': 3, 'max': 300 });
+      var buildTime = faker.random.number({ 'min': 700, 'max': 1000 });
       var buildingExperience = faker.random.number({ 'min': 0, 'max': 4 });
-      var helpfulYes = faker.random.number({ 'min': 0, 'max': 300 });
-      var helpfulNo = faker.random.number({ 'min': 0, 'max': 300 });
+      var helpfulYes = faker.random.number({ 'min': 0, 'max': 50 });
+      var helpfulNo = faker.random.number({ 'min': 0, 'max': 20 });
       var image1 = faker.image.image();
       var image2 = faker.image.image();
       var image3 = faker.image.image();
-      var image4 = faker.image.image();
-      var image5 = faker.image.image();
       var product_id = i;
       var users_id = j;
 
@@ -47,8 +46,6 @@ function generateReviews() {
         "image1": image1,
         "image2": image2,
         "image3": image3,
-        "image4": image4,
-        "image5": image5,
         "product_id": i,
         "users_id": j
       })

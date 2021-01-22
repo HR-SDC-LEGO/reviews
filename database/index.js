@@ -5,12 +5,12 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: key,
-  database: 'fec',
+  database: 'PROJECT'
 });
 
 connection.connect();
 
-var getReviewsData = (product_id, callback) => {
+const getReviewsData = (product_id, callback) => {
   connection.query('SELECT * FROM reviewList WHERE product_id = ?', product_id, (err, data) => {
     if (err) {
       callback(err);
@@ -20,9 +20,19 @@ var getReviewsData = (product_id, callback) => {
   });
 };
 
-var updateData = (data, callback) => {
-  var helpfulData = data[0].helpful_yes || data[0].helpful_no;
-  var updateKey = Object.keys(data[0])[0];
+const getOverallData = (product_id, callback) => {
+  connection.query('SELECT * FROM overall WHERE product_id = ?', product_id, (err, data) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, data);
+    }
+  });
+};
+
+const updateData = (data, callback) => {
+  const helpfulData = data[0].helpful_yes || data[0].helpful_no;
+  const updateKey = Object.keys(data[0])[0];
   connection.query(`UPDATE reviewList SET ${updateKey} = ? WHERE id = ?`, [helpfulData, data[1]], (err, results) => {
     if (err) {
       callback(err);
@@ -32,18 +42,10 @@ var updateData = (data, callback) => {
   });
 };
 
-
-module.exports = {
-  getReviewsData,
-  updateData
-};
-
-
-
-// var insertColosseumData = (fakeData, callback) => {
+// const insertData = (fakeData, callback) => {
 //   for (let data of fakeData) {
-//     var key = Object.keys(data)[0]
-//     var arrData = data[key];
+//     const key = Object.keys(data)[0];
+//     const arrData = data[key];
 //     for (let eachData of arrData) {
 //       connection.query(`INSERT INTO ${key} SET ?`, eachData, (err, results) => {
 //         if (err) {
@@ -51,7 +53,26 @@ module.exports = {
 //         } else {
 //           callback(null, results);
 //         }
-//       })
+//       });
 //     }
 //   }
 // };
+
+// const insertOverall = (fakeData, callback) => {
+//   console.log(fakeData)
+//   connection.query('INSERT INTO overall SET ?', fakeData, (err, results) => {
+//     if (err) {
+//       callback(err);
+//     } else {
+//       callback(null, results);
+//     }
+//   });
+// };
+
+module.exports = {
+  // insertOverall,
+  // insertData,
+  getOverallData,
+  getReviewsData,
+  updateData
+};
