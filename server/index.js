@@ -21,8 +21,27 @@ const getPerPage = (number, data) => {
   return currentReviews;
 };
 
+// eslint-disable-next-line consistent-return
+const getSort = (query) => {
+  let sortByCategory = {
+    'Most relevant': 'id',
+    'Helpfulness': '1helpful_yes',
+    'Rating - Low to High': 'overall_rate',
+    'Rating - High to Low': '1overall_rate',
+    'Date - oldest first': 'date_create',
+    'Date - newest first': '1date_create'
+  };
+  for (let key in sortByCategory) {
+    if (key === query) {
+      return (sortByCategory[key]);
+    }
+  }
+};
+
 app.get('/api/products/:id', (req, res) => {
-  db.getReviewsData(req.params.id, (err, results) => {
+  let sortQuery = getSort(req.query.sort);
+  // console.log(req.query);
+  db.getReviewsData([req.params.id, sortQuery], (err, results) => {
     if (err) {
       res.status(400).send(err);
     } else {
@@ -47,6 +66,8 @@ app.get('/api/products/overall/:id', (req, res) => {
 });
 
 app.put('/api/reviews/:id', (req, res) => {
+  // console.log(req.params.id)
+  // console.log(req.body)
   const data = [req.body, req.params.id];
   db.updateData(data, (err, results) => {
     if (err) {

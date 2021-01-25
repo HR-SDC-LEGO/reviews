@@ -5,6 +5,8 @@ import axios from 'axios';
 import Reviews from './ReviewsView.jsx';
 import Overall from './Overall.jsx';
 import Pagination from './Pagination.jsx';
+import SortData from './SortData.jsx';
+import TopBar from './TopBar.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,15 +15,17 @@ class App extends React.Component {
       totalReviews: 0,
       overall: {},
       reviews: [],
-      reviewPerPage: 5
+      reviewPerPage: 5,
+      hiding: 'auto'
     };
   }
 
-  getRequest(number) {
-    axios.get(`/api/products/3?page=${number}`)
+  getRequest(number, sort) {
+    // console.log(number)
+    axios.get(`/api/products/3?page=${number}&sort=${sort}`)
       .then((response) => {
         // handle success
-        // console.log(response.data)
+        // console.log(response.data);
         this.setState({
           totalReviews: response.data[0],
           reviews: response.data.slice(1)
@@ -54,9 +58,22 @@ class App extends React.Component {
       });
   }
 
+  hiddenContent() {
+    if (this.state.hiding === '0px') {
+      this.setState({ hiding: 'auto' });
+    } else if (this.state.hiding === 'auto') {
+      this.setState({ hiding: '0px' });
+    }
+  }
+
   paginate(pageNumber) {
     // this.getOverallRequest();
     this.getRequest(pageNumber);
+  }
+
+  handleSortData(e) {
+    // this.getRequest();
+    this.getRequest(1, e);
   }
 
   componentDidMount() {
@@ -65,12 +82,21 @@ class App extends React.Component {
 
   render() {
     // console.log(this.state.reviews)
-    const { overall, totalReviews, reviews, reviewPerPage } = this.state;
+    const { overall, totalReviews, reviews, reviewPerPage, hiding } = this.state;
+    if (!totalReviews || !overall) {
+      return 'loading...';
+    }
     return (
-      <div>
-        <Overall overall={overall} totalReviews={totalReviews} />
-        <Reviews reviews={reviews} />
-        <Pagination reviewPerPage={reviewPerPage} totalReviews={totalReviews} paginate={this.paginate.bind(this)} />
+      <div className='container'>
+        <TopBar totalReviews={totalReviews} hiddenContent={this.hiddenContent.bind(this)} />
+        <div className='wrapper' style={{ height: hiding }}>
+          <div className='style_wrapper'>
+            <Overall overall={overall} />
+            <SortData sortData={this.handleSortData.bind(this)} />
+            <Reviews reviews={reviews} />
+            <Pagination reviewPerPage={reviewPerPage} totalReviews={totalReviews} paginate={this.paginate.bind(this)} />
+          </div>
+        </div>
       </div>
     );
   }

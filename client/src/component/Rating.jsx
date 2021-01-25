@@ -56,7 +56,7 @@ const ratingIcons = (value) => {
 const Rating = ({ value }) => {
   if (typeof value === 'object') {
     return (
-      <span className='overall_rating'>
+      <span className='star_rating'>
         {
           ratingIcons(parseFloat(value.star)).map((value, index) => <img src={ratingStart(value)} width={30} key={index} />)
         }
@@ -64,7 +64,7 @@ const Rating = ({ value }) => {
     );
   }
   return (
-    <span className='overall_rating'>
+    <span className='brick_rating'>
       {
         ratingIcons(parseFloat(value)).map((value, index) => <img src={ratingBrick(value)} width={30} key={index} />)
       }

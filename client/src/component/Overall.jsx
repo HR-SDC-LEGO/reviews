@@ -30,51 +30,56 @@ class Overall extends React.Component {
     const starRating = { 'star': rating };
 
     return (
-      <div>
-        <div>
-          Customer Reviews
-          (
-          {number_review}
-          )
-        </div>
-        <div className='rating'>
-          <Rating value={starRating} />
-          <span>
-            {rating}
-            (
-            {this.props.reviewsCount}
-            Reviews
-            )
-          </span>
-        </div>
-        <div className='recommend'>
-          {recommendToOther}
-          would recommend this product.
-        </div>
-        <p>Rating</p>
-        <div>
-          {barData.map((bar) => (
-            <BarRating bar={bar} key={bar.id} />
-          ))}
-        </div>
-        <div>
-          <p>Overall Experience</p>
-          <div>
-            <p>Play Experience</p>
-            <Rating value={experience} />
-            <span>{experience}</span>
-            <p>Level of Difficulty</p>
-            <Rating value={difficulty} />
-            <span>{difficulty}</span>
-            <p>Value for Money</p>
-            <Rating value={value_money} />
-            <span>{value_money}</span>
+      <div className='overview'>
+        <div className='rating_wrapper'>
+          <div className='rating'>
+            <div className='overallRating'>
+              Overall Rating
+              <div>
+                <Rating value={starRating} />
+                <span className='count-reviews'>
+                  {rating}
+                  (
+                  {this.props.reviewsCount}
+                  Reviews
+                  )
+                </span>
+              </div>
+            </div>
+            <button className='review-btn' type='button' onClick={this.handleSubmit()}>
+              Write a Review
+            </button>
           </div>
-        </div>
-        <div>
-          <button type='button' onClick={this.handleSubmit()}>
-            Write a Review
-          </button>
+          <div className='recommend'>
+            {recommendToOther}
+            would recommend this product.
+          </div>
+          <div className='rating-box'>
+          <div className='left-part'>
+          <p>Rating</p>
+          <div className='rating-part'>
+            {barData.map((bar) => (
+              <BarRating bar={bar} key={bar.id} />
+            ))}
+          </div>
+          </div>
+          <div className='overall-experience'>
+            <p>Overall Experience</p>
+            <div>
+              <p>Play Experience</p>
+              <Rating value={experience} />
+              <span>{experience}</span>
+              <p>Level of Difficulty</p>
+              <Rating value={difficulty} />
+              <span>{difficulty}</span>
+              <p>Value for Money</p>
+              <Rating value={value_money} />
+              <span>{value_money}</span>
+            </div>
+          </div>
+          </div>
+          <div>
+          </div>
         </div>
       </div>
     );

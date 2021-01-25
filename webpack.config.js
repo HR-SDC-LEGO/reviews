@@ -14,7 +14,7 @@ module.exports = {
         include: path.resolve(__dirname, 'client', 'src'),
         exclude: /node_modules/,
         use: [{
-          loader: ['babel-loader', 'source-map-loader'],
+          loader: 'babel-loader',
           options: {
             presets: [
               ['@babel/preset-env', {

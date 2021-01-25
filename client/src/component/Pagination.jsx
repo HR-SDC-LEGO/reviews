@@ -10,7 +10,7 @@ const Pagination = ({ reviewPerPage, totalReviews, paginate }) => {
   }
 
   return (
-    <nav>
+    <div className='page-bar'>
       <ul className='pagination'>
         {pageNumbers.map((number) => (
           <li key={number} className='page-item'>
@@ -20,7 +20,7 @@ const Pagination = ({ reviewPerPage, totalReviews, paginate }) => {
           </li>
         ))}
       </ul>
-    </nav>
+    </div>
   );
 };
 

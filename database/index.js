@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 const mysql = require('mysql');
 const key = require('./config/key.js');
 
@@ -10,8 +11,18 @@ const connection = mysql.createConnection({
 
 connection.connect();
 
-const getReviewsData = (product_id, callback) => {
-  connection.query('SELECT * FROM reviewList WHERE product_id = ?', product_id, (err, data) => {
+const getReviewsData = (reqData, callback) => {
+  // console.log(reqData);
+  const product_id = reqData[0];
+  const sorter = reqData[1];
+  let sql = 'SELECT * FROM reviewList WHERE product_id = ? ';
+  if (sorter === '1date_create' || sorter === '1overall_rate' || sorter === '1helpful_yes') {
+    sql = 'SELECT * FROM reviewList WHERE product_id = ? ORDER BY ' + connection.escapeId(sorter.slice(1)) + 'DESC';
+  } else if (sorter !== undefined) {
+    sql = 'SELECT * FROM reviewList WHERE product_id = ? ORDER BY ' + connection.escapeId(sorter);
+  }
+
+  connection.query(sql, product_id, (err, data) => {
     if (err) {
       callback(err);
     } else {
@@ -31,13 +42,17 @@ const getOverallData = (product_id, callback) => {
 };
 
 const updateData = (data, callback) => {
-  const helpfulData = data[0].helpful_yes || data[0].helpful_no;
-  const updateKey = Object.keys(data[0])[0];
-  connection.query(`UPDATE reviewList SET ${updateKey} = ? WHERE id = ?`, [helpfulData, data[1]], (err, results) => {
+  const userId=Number(data[0].id);
+  const updateCol=data[0].option;
+  const updateData=[data[0].likeOrDislike, userId]
+
+  // console.log(updateCol)
+  // console.log(updateData)
+  connection.query(`UPDATE reviewList SET ${updateCol} = ? WHERE id = ?`, updateData, (err, results) => {
     if (err) {
       callback(err);
     } else {
-      callback(results);
+      callback(null, results);
     }
   });
 };
