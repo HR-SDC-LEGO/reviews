@@ -26,6 +26,7 @@ const getReviewsData = (reqData, callback) => {
     if (err) {
       callback(err);
     } else {
+      // console.log(data)
       callback(null, data);
     }
   });

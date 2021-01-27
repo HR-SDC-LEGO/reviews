@@ -9,6 +9,7 @@ const db = require('../database/index.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// app.use('/products/:id', express.static(path.join(__dirname, '../client/dist')));
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 const getPerPage = (number, data) => {

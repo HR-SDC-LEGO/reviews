@@ -22,10 +22,13 @@ class App extends React.Component {
 
   getRequest(number, sort) {
     // console.log(number)
-    axios.get(`/api/products/1?page=${number}&sort=${sort}`)
+    axios.get(`/api/products/2?page=${number}&sort=${sort}`)
+    // axios.get(`/api/products/${window.location.pathname.slice(-2, -1)}?page=${number}&sort=${sort}`)
+    // axios.get(`/api${window.location.pathname}?page=${number}&sort=${sort}`)
       .then((response) => {
         // handle success
-        console.log(response.data);
+        // console.log(window.location.pathname);
+        // console.log(window.location.pathname.slice(-2, -1))
         this.setState({
           totalReviews: response.data[0],
           reviews: response.data.slice(1)
@@ -42,10 +45,11 @@ class App extends React.Component {
   }
 
   getOverallRequest() {
-    axios.get('/api/products/overall/1')
+    axios.get('/api/products/overall/2')
+    // axios.get(`/api/products/overall/${window.location.pathname.slice(-2, -1)}`)
       .then((response) => {
         // handle success
-        console.log(response)
+        // console.log(response)
         this.setState({
           overall: response.data[0]
         });
