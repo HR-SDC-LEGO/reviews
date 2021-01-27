@@ -6,11 +6,11 @@ import React from 'react';
 const ratingStart = (value) => {
   switch (value) {
   case 0:
-    return './star-gray.png';
+    return 'https://front-end-capstoneproject.s3-us-west-1.amazonaws.com/star-gray.png';
   case 50:
-    return './star-half.png';
+    return 'https://front-end-capstoneproject.s3-us-west-1.amazonaws.com/star-half.png';
   case 100:
-    return './star.png';
+    return 'https://front-end-capstoneproject.s3-us-west-1.amazonaws.com/star.png';
     // return './bar_ful.png';
   }
 };
@@ -18,11 +18,11 @@ const ratingStart = (value) => {
 const ratingBrick = (value) => {
   switch (value) {
   case 0:
-    return './brick_gray.png';
+    return 'https://front-end-capstoneproject.s3-us-west-1.amazonaws.com/brick_gray.png';
   case 50:
-    return './brick_half.png';
+    return 'https://front-end-capstoneproject.s3-us-west-1.amazonaws.com/brick_half.png';
   case 100:
-    return './bar_ful.png';
+    return 'https://front-end-capstoneproject.s3-us-west-1.amazonaws.com/brick_ful.png';
   }
 };
 const ratingIcons = (value) => {

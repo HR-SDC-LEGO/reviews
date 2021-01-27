@@ -3,4 +3,4 @@ node_modules
 database/config
 client/dist/bundle.js
 data.json
-
+generateData/config

@@ -15,7 +15,7 @@ const BarRating = (props) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: '30px 0px',
+        margin: '30px 0px'
       }}
     >
       <span className='rating-font-style' style={{ float: 'left', width: '20%' }}>

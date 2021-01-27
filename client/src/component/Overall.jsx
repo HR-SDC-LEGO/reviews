@@ -55,30 +55,28 @@ class Overall extends React.Component {
             would recommend this product.
           </div>
           <div className='rating-box'>
-          <div className='left-part'>
-          <p>Rating</p>
-          <div className='rating-part'>
-            {barData.map((bar) => (
-              <BarRating bar={bar} key={bar.id} />
-            ))}
-          </div>
-          </div>
-          <div className='overall-experience'>
-            <p>Overall Experience</p>
-            <div>
-              <p>Play Experience</p>
-              <Rating value={experience} />
-              <span>{experience}</span>
-              <p>Level of Difficulty</p>
-              <Rating value={difficulty} />
-              <span>{difficulty}</span>
-              <p>Value for Money</p>
-              <Rating value={value_money} />
-              <span>{value_money}</span>
+            <div className='left-part'>
+              <p>Rating</p>
+              <div className='rating-part'>
+                {barData.map((bar) => (
+                  <BarRating bar={bar} key={bar.id} />
+                ))}
+              </div>
             </div>
-          </div>
-          </div>
-          <div>
+            <div className='overall-experience'>
+              <p>Overall Experience</p>
+              <div>
+                <p>Play Experience</p>
+                <Rating value={experience} />
+                <span>{experience}</span>
+                <p>Level of Difficulty</p>
+                <Rating value={difficulty} />
+                <span>{difficulty}</span>
+                <p>Value for Money</p>
+                <Rating value={value_money} />
+                <span>{value_money}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

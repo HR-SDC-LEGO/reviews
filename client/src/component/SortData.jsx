@@ -12,7 +12,11 @@ const SortData = ({ sortData }) => {
   // ];
   return (
     <div className='sort'>
-      <p>Please note that by submitting a helpfulness vote on a review your IP address is collected and stored by our trusted third party service provider for the sole purpose of preventing multiple entries from the same IP address. To see how to control your personal data, please see our <a>Privacy policy</a>.</p>
+      <p>
+        Please note that by submitting a helpfulness vote on a review your IP address is collected and stored by our trusted third party service provider for the sole purpose of preventing multiple entries from the same IP address. To see how to control your personal data, please see our
+        <a href='https://www.lego.com/en-us/legal/notices-and-policies/privacy-policy'>Privacy policy</a>
+        .
+      </p>
       <h3>Reviews</h3>
       <form className='sort-box'>
         <select onChange={(e) => {

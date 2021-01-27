@@ -5,5 +5,5 @@ import App from './component/App.jsx';
 ReactDOM.render(
   // eslint-disable-next-line react/jsx-filename-extension
   <App />,
-  document.getElementById('app')
+  document.getElementById('Review')
 );

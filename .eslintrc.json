@@ -109,7 +109,9 @@
         ],
         "max-len": [
             "off"
+        ],
+        "react/jsx-filename-extension": [
+            1, { "allow": "as-needed" }
         ]
-        ''
     }
 }

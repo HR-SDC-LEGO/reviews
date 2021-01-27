@@ -13,7 +13,7 @@ const TopBar = ({ totalReviews, hiddenContent }) => {
               )
             </span>
           </h2>
-          <div className='spin-icon'></div>
+          {/* <div className='spin-icon'></div> */}
         </div>
       </div>
     </button>

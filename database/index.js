@@ -6,7 +6,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: key,
-  database: 'PROJECT'
+  database: 'reviews'
 });
 
 connection.connect();
@@ -42,13 +42,13 @@ const getOverallData = (product_id, callback) => {
 };
 
 const updateData = (data, callback) => {
-  const userId=Number(data[0].id);
-  const updateCol=data[0].option;
-  const updateData=[data[0].likeOrDislike, userId]
+  const userId = Number(data[0].id);
+  const updateCol = data[0].option;
+  const passData = [data[0].likeOrDislike, userId];
 
   // console.log(updateCol)
   // console.log(updateData)
-  connection.query(`UPDATE reviewList SET ${updateCol} = ? WHERE id = ?`, updateData, (err, results) => {
+  connection.query(`UPDATE reviewList SET ${updateCol} = ? WHERE id = ?`, passData, (err, results) => {
     if (err) {
       callback(err);
     } else {
