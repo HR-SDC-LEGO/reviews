@@ -1,13 +1,9 @@
+/* eslint-disable no-loop-func */
 /* eslint-disable prefer-template */
 /* eslint-disable indent */
 /* eslint-disable no-plusplus */
 /* eslint-disable prefer-const */
 /* eslint-disable prefer-destructuring */
-const express = require('express');
-const app = express();
-const port = 2800;
-const bodyParser = require('body-parser');
-const path = require('path');
 const db = require('./database.js');
 const fakeData = require('./dummydatagenerator.js');
 
@@ -104,7 +100,6 @@ const getFormattedDate = (data) => {
   let ratePercentage4 = Math.floor((rate4 / data.length) * 100) + '%';
   let ratePercentage5 = Math.floor((rate5 / data.length) * 100) + '%';
 
-
   // console.log(ratePercentage2)
   return {
     'rating': rating,
@@ -127,43 +122,33 @@ const getFormattedDate = (data) => {
   };
 };
 
-app.post('/fakedata', (req, res) => {
-  const allData = [
-    fakeData.generateUsers(),
-    fakeData.generateProducts(),
-    fakeData.generateReviews()
-  ];
-  db.insertData(allData, (err, results) => {
-    if (err) {
-      res.end();
-    } else {
-      res.end();
-    }
-  });
-});
-
-app.get('/fakedata', (req, res) => {
+// app.get('/fakedata', (req, res) => {
   // console.log(req.params.id);
+  // });
+  // app.post('/fakedata', (req, res) => {
+    const allData = [
+      fakeData.generateUsers(),
+      fakeData.generateProducts(),
+      fakeData.generateReviews()
+    ];
+    db.insertData(allData, (err, results) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  // });
   for (let i = 1; i <= 5; i++) {
     db.getReviewsData(i, (err, results) => {
       if (err) {
-        res.status(400).send(err);
+        console.log(err);
       } else {
         const overallData = getFormattedDate(results);
         // console.log(overallData)
-
         db.insertOverall(overallData, (error, result) => {
           if (error) {
-            res.end();
-          } else {
-            res.end();
+            console.log(error);
           }
         });
       }
     });
   }
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});

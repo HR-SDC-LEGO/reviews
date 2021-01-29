@@ -8,7 +8,8 @@
     "start": "nodemon server/index.js",
     "build": "webpack --watch",
     "mysqlFile": "mysql -u root -p < schema.sql",
-    "generateData": "nodemon generateData/FileData.js"
+    "generateData": "node ./generateData/FileData.js",
+    "mysql": "mysql -u root -p"
   },
   "repository": {
     "type": "git",

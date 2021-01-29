@@ -1,6 +1,6 @@
 node_modules
 
-database/config
+database/config/key.js
 client/dist/bundle.js
 data.json
-generateData/config
+generateData/config/key.js
