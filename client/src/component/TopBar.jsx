@@ -13,7 +13,7 @@ const TopBar = ({ totalReviews, hiddenContent }) => {
               )
             </span>
           </h2>
-          {/* <div className='IconPlusMinus__PlusMinusIcon-bckkl2-0 iwGswK ProductAccordionstyles__ExpandIcon-f6m1h5-2 dHWNWl'></div> */}
+          <div className='IconPlusMinus__PlusMinusIcon-bckkl2-0 iwGswK ProductAccordionstyles__ExpandIcon-f6m1h5-2 dHWNWl'>➕</div>
         </div>
       </div>
     </button>

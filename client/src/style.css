@@ -377,3 +377,20 @@ select:focus {
     width: 100%;
   }
 }
+
+@media screen and (min-width: 901px) {}
+.dHWNWl {
+    width: 1.875rem;
+    height: 1.875rem;
+}
+
+.dHWNWl {
+  margin-left: 1.125rem;
+}
+.iwGswK {
+position: relative;
+border: 1px solid rgb(224, 224, 224);
+border-radius: 50%;
+background: rgb(255, 255, 255);
+flex: 0 0 auto;
+}
