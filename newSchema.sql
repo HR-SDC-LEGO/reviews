@@ -30,17 +30,36 @@ CREATE TABLE reviews (
   build_days SMALLINT NOT NULL,
   build_hours SMALLINT NOT NULL,
   build_mins SMALLINT NOT NULL,
-  building_experience VARCHAR(25),
+  building_experience SMALLINT,
   helpful SMALLINT NOT NULL,
   not_helpful SMALLINT NOT NULL
 );
 
 -- Example Insert
-INSERT INTO reviews (product_id, review_date, rating, review_title, username, age_range, would_recommend, purchased_for, review_body, user_images, play_experience, level_of_difficulty, value_for_money, build_days, build_hours, build_mins, building_experience, helpful, not_helpful)
+INSERT INTO reviews (
+  product_id,
+  review_date,
+  rating,
+  review_title,
+  username,
+  age_range,
+  would_recommend,
+  purchased_for,
+  review_body,
+  user_images,
+  play_experience,
+  level_of_difficulty,
+  value_for_money,
+  build_days,
+  build_hours,
+  build_mins,
+  building_experience,
+  helpful,
+  not_helpful)
 VALUES (
   1,
-  '2020-01-08',
-  5,
+  '2020-01-05',
+  3,
   'Heres a title',
   'username',
   '11-22',
@@ -54,7 +73,7 @@ VALUES (
   1,
   13,
   24,
-  'experienced',
+  1,
   44,
   22
 );
