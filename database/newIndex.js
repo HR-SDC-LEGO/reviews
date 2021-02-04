@@ -7,33 +7,30 @@ const pool = new Pool({
 });
 
 const getReviews = (productId, stars, sort, callback) => {
-  // page defaults to sort by 'most relevant'
-  // using building_experience to sort by 'most relevant'
-  let sortBy = 'building_experience ASC';
+  // page defaults to sort by 'most relevant' (using building_experience)
+  let sortBy = 'building_experience';
   let sortStars;
-  let ascOrDesc = 'ASC';
+  let ascOrDesc = 'DESC';
   if (sort === 'date-newest') {
     sortBy = 'review_date';
-    ascOrDesc = 'DESC';
   }
   if (sort === 'date-oldest') {
     sortBy = 'review_date';
+    ascOrDesc = 'ASC';
   }
   if (sort === 'rating-high') {
     sortBy = 'rating';
-    ascOrDesc = 'DESC';
   }
   if (sort === 'rating-low') {
     sortBy = 'rating';
+    ascOrDesc = 'ASC';
   }
   if (sort === 'helpfulness') {
     sortBy = 'rating';
-    ascOrDesc = 'DESC';
   }
-  console.log(sortBy)
-  // input 'stars' are string of nums
+
   if (stars) {
-    sortStars = stars.split(' ');
+    sortStars = stars.split('');
   } else {
     sortStars = [5, 4, 3, 2, 1];
   }
@@ -41,18 +38,21 @@ const getReviews = (productId, stars, sort, callback) => {
     text: `
       SELECT * FROM reviews
       WHERE product_id = $1
-      AND rating IN (${sortStars.join(',')})
-      ORDER BY $2 ASC;
+      AND rating = ANY ($2)
+      ORDER BY ${sortBy} ${ascOrDesc}
       `,
-    values: [productId, sortBy]
+    values: [productId, sortStars]
   };
-  console.log(reviewQuery);
 
   pool
     .query(reviewQuery)
-    .then((res) => callback(res))
+    .then((res) => {
+      callback(res.rows);
+    })
     .catch((e) => callback(e));
 };
+
+
 
 module.exports = {
   getReviews
