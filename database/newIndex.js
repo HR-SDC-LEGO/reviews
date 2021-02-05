@@ -6,7 +6,7 @@ const pool = new Pool({
   port: 5432
 });
 
-const getReviews = (productId, stars, sort, callback) => {
+const getReviews = async (productId, stars, sort) => {
   // page defaults to sort by 'most relevant' (using building_experience)
   let sortBy = 'building_experience';
   let sortStars;
@@ -44,15 +44,33 @@ const getReviews = (productId, stars, sort, callback) => {
     values: [productId, sortStars]
   };
 
-  pool
-    .query(reviewQuery)
-    .then((res) => {
-      callback(res.rows);
-    })
-    .catch((e) => callback(e));
+  const reviewsDataQuery = {
+    text: `
+      SELECT AVG(rating) AS avgRating,
+      AVG(play_experience) AS avgPlayExp,
+      AVG(level_of_difficulty) AS avgDiff,
+      AVG(value_for_money) AS avgVal
+      FROM reviews
+      WHERE product_id = $1
+    `,
+    values: [productId]
+  };
+
+  const starsDataQuery = {
+    text: `
+      SELECT rating, count(rating) FROM reviews
+      WHERE product_id = $1
+      GROUP BY rating
+    `,
+    values: [productId]
+  };
+
+  const allReviews = await pool.query(reviewQuery);
+  const reviewsAvgs = await pool.query(reviewsDataQuery);
+  const starsTotals = await pool.query(starsDataQuery);
+
+  return [allReviews.rows, reviewsAvgs.rows, starsTotals.rows];
 };
-
-
 
 module.exports = {
   getReviews
