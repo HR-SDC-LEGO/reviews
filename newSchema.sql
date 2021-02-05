@@ -5,15 +5,14 @@
 
 CREATE TABLE products (
   product_id SERIAL NOT NULL PRIMARY KEY,
-  product_name VARCHAR(50) NOT NULL,
-  product_image VARCHAR(200)
+  product_name VARCHAR(50) NOT NULL
 );
 -- Example Insert
 INSERT INTO products (product_name, product_image) VALUES ('Lego product', 'lego image');
 
 
 CREATE TABLE reviews (
-  review_id SERIAL NOT NULL PRIMARY KEY,
+  review_id SERIAL PRIMARY KEY,
   product_id INTEGER NOT NULL REFERENCES products,
   review_date DATE NOT NULL,
   rating SMALLINT NOT NULL,
@@ -59,7 +58,7 @@ INSERT INTO reviews (
 VALUES (
   1,
   '2020-01-05',
-  3,
+  4,
   'Heres a title',
   'username',
   '11-22',
@@ -77,3 +76,28 @@ VALUES (
   44,
   22
 );
+
+
+COPY reviews(
+  product_id,
+  review_date,
+  rating,
+  review_title,
+  username,
+  age_range,
+  would_recommend,
+  purchased_for,
+  review_body,
+  user_images,
+  play_experience,
+  level_of_difficulty,
+  value_for_money,
+  build_days,
+  build_hours,
+  build_mins,
+  building_experience,
+  helpful,
+  not_helpful)
+  FROM '/Users/Jeremy/hackreactor/SDC/Main-Product-Review/reviews1.csv'
+  DELIMITER ','
+  CSV HEADER;
