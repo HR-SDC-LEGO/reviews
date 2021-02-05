@@ -15,9 +15,13 @@ app.get('/api/products/:id/reviews', (req, res) => {
   // on page load, sort defaults to 'Most relevant'
   const { sort, stars } = req.query;
   const { id } = req.params;
-  getReviews(id, stars, sort, (results) => {
-    console.log(results.rows);
-  });
+  getReviews(id, stars, sort)
+    .then((results) => {
+      res.status(200).send(results);
+    })
+    .catch((err) => {
+      res.status(404).send(err);
+    });
 });
 
 app.patch('/api/reviews/:reviewid', (req, res) => {
