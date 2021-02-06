@@ -72,6 +72,21 @@ const getReviews = async (productId, stars, sort) => {
   return [allReviews.rows, reviewsAvgs.rows, starsTotals.rows];
 };
 
+const voteHelpful = async (id, reviewId, vote) => {
+  const query = {
+    text: `
+      UPDATE reviews
+      SET ${vote} = ${vote} + 1
+      WHERE product_id = $1
+      AND review_id = $2
+    `,
+    values: [id, reviewId]
+  };
+  const results = await pool.query(query);
+  return results;
+};
+
 module.exports = {
-  getReviews
+  getReviews,
+  voteHelpful
 };
