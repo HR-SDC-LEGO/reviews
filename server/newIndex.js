@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { getReviews } = require('../database/newIndex');
+const { getReviews, voteHelpful } = require('../database/newIndex');
 
 const app = express();
 const port = 3003;
@@ -26,7 +26,16 @@ app.get('/api/products/:id/reviews', (req, res) => {
 });
 
 // Update upvotes/downvotes for one review
-app.patch('/api/reviews/:reviewid', (req, res) => {
+app.patch('/api/products/:id/reviews/:reviewId', (req, res) => {
+  const { id, reviewId } = req.params;
+  const { vote } = req.body;
+  voteHelpful(id, reviewId, vote)
+    .then((results) => {
+      res.status(200).send(results);
+    })
+    .catch((err) => {
+      res.status(404).send(err);
+    });
 });
 
 app.listen(port, () => {
