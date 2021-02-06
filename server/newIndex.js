@@ -10,13 +10,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
+// Get all reviews for one product
 app.get('/api/products/:id/reviews', (req, res) => {
-  // query function to get all reviews for one product
-  // on page load, sort defaults to 'Most relevant'
+  console.time('getReq');
   const { sort, stars } = req.query;
   const { id } = req.params;
   getReviews(id, stars, sort)
     .then((results) => {
+      console.timeEnd('getReq');
       res.status(200).send(results);
     })
     .catch((err) => {
@@ -24,8 +25,8 @@ app.get('/api/products/:id/reviews', (req, res) => {
     });
 });
 
+// Update upvotes/downvotes for one review
 app.patch('/api/reviews/:reviewid', (req, res) => {
-  // query function to update review (upvotes/downvotes)
 });
 
 app.listen(port, () => {
