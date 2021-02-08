@@ -1,3 +1,4 @@
+require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -12,12 +13,12 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Get all reviews for one product
 app.get('/api/products/:id/reviews', (req, res) => {
-  console.time('getReq');
+  // console.time('getReq');
   const { sort, stars } = req.query;
   const { id } = req.params;
   getReviews(id, stars, sort)
     .then((results) => {
-      console.timeEnd('getReq');
+      // console.timeEnd('getReq');
       res.status(200).send(results);
     })
     .catch((err) => {
@@ -27,10 +28,12 @@ app.get('/api/products/:id/reviews', (req, res) => {
 
 // Update upvotes/downvotes for one review
 app.patch('/api/products/:id/reviews/:reviewId', (req, res) => {
+  console.time('patchReq');
   const { id, reviewId } = req.params;
   const { vote } = req.body;
   voteHelpful(id, reviewId, vote)
     .then((results) => {
+      console.timeEnd('patchReq');
       res.status(200).send(results);
     })
     .catch((err) => {
