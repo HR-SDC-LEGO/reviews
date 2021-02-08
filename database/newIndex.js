@@ -49,27 +49,22 @@ const getReviews = async (productId, stars, sort) => {
       SELECT AVG(rating) AS avgRating,
       AVG(play_experience) AS avgPlayExp,
       AVG(level_of_difficulty) AS avgDiff,
-      AVG(value_for_money) AS avgVal
+      AVG(value_for_money) AS avgVal,
+      COUNT(rating) filter (where rating = 5) AS rating5,
+      COUNT(rating) filter (where rating = 4) AS rating4,
+      COUNT(rating) filter (where rating = 3) AS rating3,
+      COUNT(rating) filter (where rating = 2) AS rating2,
+      COUNT(rating) filter (where rating = 1) AS rating1
       FROM reviews
       WHERE product_id = $1
     `,
     values: [productId]
   };
 
-  const starsDataQuery = {
-    text: `
-      SELECT rating, count(rating) FROM reviews
-      WHERE product_id = $1
-      GROUP BY rating
-    `,
-    values: [productId]
-  };
-
   const allReviews = await pool.query(reviewQuery);
   const reviewsAvgs = await pool.query(reviewsDataQuery);
-  const starsTotals = await pool.query(starsDataQuery);
 
-  return [allReviews.rows, reviewsAvgs.rows, starsTotals.rows];
+  return [allReviews.rows, reviewsAvgs.rows];
 };
 
 const voteHelpful = async (id, reviewId, vote) => {
