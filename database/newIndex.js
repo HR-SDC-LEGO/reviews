@@ -6,7 +6,7 @@ const pool = new Pool({
   port: 5432
 });
 
-const getReviews = async (productId, stars, sort) => {
+const getReviews = async (productId, stars, sort, page) => {
   // page defaults to sort by 'most relevant' (using building_experience)
   let sortBy = 'building_experience';
   let sortStars;
@@ -40,6 +40,8 @@ const getReviews = async (productId, stars, sort) => {
       WHERE product_id = $1
       AND rating = ANY ($2)
       ORDER BY ${sortBy} ${ascOrDesc}
+      LIMIT 4
+      OFFSET ${4 * page}
       `,
     values: [productId, sortStars]
   };
