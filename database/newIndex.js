@@ -42,7 +42,8 @@ const getReviews = async (productId, stars, sort, page = 1) => {
       LIMIT 4
       OFFSET ${4 * (page - 1)}
       `,
-    values: [productId, sortStars]
+    values: [productId, sortStars],
+    name: 'getReviews'
   };
 
   const reviewsDataQuery = {
@@ -60,13 +61,17 @@ const getReviews = async (productId, stars, sort, page = 1) => {
       FROM reviews
       WHERE product_id = $1
     `,
-    values: [productId]
+    values: [productId],
+    name: 'getReviewsData'
   };
 
-  const allReviews = await pool.query(reviewQuery);
-  const reviewsAvgs = await pool.query(reviewsDataQuery);
-
-  return [allReviews.rows, reviewsAvgs.rows];
+  try {
+    const allReviews = await pool.query(reviewQuery);
+    const reviewsAvgs = await pool.query(reviewsDataQuery);
+    return [allReviews.rows, reviewsAvgs.rows];
+  } catch (err) {
+    return err;
+  }
 };
 
 const voteHelpful = async (id, reviewId, vote) => {
