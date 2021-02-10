@@ -4,28 +4,37 @@
 /* eslint-disable import/no-mutable-exports */
 import { Rate } from 'k6/metrics';
 import http from 'k6/http';
-import { sleep } from 'k6';
 
 let errorRate = new Rate('errorRate');
 
 export let options = {
+  discardResponseBodies: true,
   scenarios: {
-    constant_request_rate: {
-      executor: 'constant-arrival-rate',
-      rate: 1000,
-      timeUnit: '1s', // 1000 iterations per second, i.e. 1000 RPS
-      duration: '30s',
-      preAllocatedVUs: 100, // how large the initial pool of VUs would be
-      maxVUs: 500 // if the preAllocatedVUs are not enough, we can initialize more
+    contacts: {
+      executor: 'ramping-arrival-rate',
+      startRate: 1,
+      timeUnit: '1s',
+      preAllocatedVUs: 100,
+      maxVUs: 500,
+      stages: [
+        { target: 10, duration: '2m' },
+        { target: 10, duration: '5m' },
+        { target: 100, duration: '2m' },
+        { target: 100, duration: '5m' },
+        { target: 500, duration: '2m' },
+        { target: 500, duration: '5m' },
+        { target: 1000, duration: '2m' },
+        { target: 1000, duration: '5m' }
+      ]
     }
   }
 };
 
 export default function () {
-  let random = Math.ceil(Math.random() * 10000000);
-  let resp = http.get(`http://localhost:3003/api/products/${random}/reviews`, {
+  let random = Math.floor(Math.random() * 10000000) + 1;
+  let res = http.get(`http://localhost:3003/api/products/${random}/reviews`, {
     tags: { name: 'ProductsURL' }
   });
 
-  errorRate.add(resp.status >= 400);
+  errorRate.add(res.status >= 400);
 }
