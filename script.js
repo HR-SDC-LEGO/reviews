@@ -7,25 +7,38 @@ import http from 'k6/http';
 
 let errorRate = new Rate('errorRate');
 
+// export let options = {
+//   discardResponseBodies: true,
+//   scenarios: {
+//     contacts: {
+//       executor: 'ramping-arrival-rate',
+//       startRate: 1,
+//       timeUnit: '1s',
+//       preAllocatedVUs: 100,
+//       maxVUs: 500,
+//       stages: [
+//         { target: 10, duration: '2m' },
+//         { target: 10, duration: '5m' },
+//         { target: 100, duration: '2m' },
+//         { target: 100, duration: '5m' },
+//         { target: 500, duration: '2m' },
+//         { target: 500, duration: '5m' },
+//         { target: 1000, duration: '2m' },
+//         { target: 1000, duration: '5m' }
+//       ]
+//     }
+//   }
+// };
+
 export let options = {
-  discardResponseBodies: true,
   scenarios: {
-    contacts: {
-      executor: 'ramping-arrival-rate',
-      startRate: 1,
+    constant_request_rate: {
+      executor: 'constant-arrival-rate',
+      rate: 500,
       timeUnit: '1s',
+      duration: '30s',
       preAllocatedVUs: 100,
-      maxVUs: 500,
-      stages: [
-        { target: 10, duration: '2m' },
-        { target: 10, duration: '5m' },
-        { target: 100, duration: '2m' },
-        { target: 100, duration: '5m' },
-        { target: 500, duration: '2m' },
-        { target: 500, duration: '5m' },
-        { target: 1000, duration: '2m' },
-        { target: 1000, duration: '5m' }
-      ]
+      maxVUs: 500
     }
   }
 };
