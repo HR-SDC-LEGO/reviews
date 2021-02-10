@@ -6,7 +6,7 @@ const pool = new Pool({
   port: 5432
 });
 
-const getReviews = async (productId, stars, sort, page) => {
+const getReviews = async (productId, stars, sort, page = 1) => {
   // page defaults to sort by 'most relevant' (using building_experience)
   let sortBy = 'building_experience';
   let sortStars;
@@ -26,9 +26,8 @@ const getReviews = async (productId, stars, sort, page) => {
     ascOrDesc = 'ASC';
   }
   if (sort === 'helpfulness') {
-    sortBy = 'rating';
+    sortBy = 'helpful';
   }
-
   if (stars) {
     sortStars = stars.split('');
   } else {
@@ -41,7 +40,7 @@ const getReviews = async (productId, stars, sort, page) => {
       AND rating = ANY ($2)
       ORDER BY ${sortBy} ${ascOrDesc}
       LIMIT 4
-      OFFSET ${4 * page}
+      OFFSET ${4 * (page - 1)}
       `,
     values: [productId, sortStars]
   };
@@ -52,11 +51,12 @@ const getReviews = async (productId, stars, sort, page) => {
       AVG(play_experience) AS avgPlayExp,
       AVG(level_of_difficulty) AS avgDiff,
       AVG(value_for_money) AS avgVal,
-      COUNT(rating) filter (where rating = 5) AS rating5,
-      COUNT(rating) filter (where rating = 4) AS rating4,
-      COUNT(rating) filter (where rating = 3) AS rating3,
-      COUNT(rating) filter (where rating = 2) AS rating2,
-      COUNT(rating) filter (where rating = 1) AS rating1
+      COUNT(*) AS totalReviews,
+      COUNT(rating) filter (where rating = 5) AS ratings5,
+      COUNT(rating) filter (where rating = 4) AS ratings4,
+      COUNT(rating) filter (where rating = 3) AS ratings3,
+      COUNT(rating) filter (where rating = 2) AS ratings2,
+      COUNT(rating) filter (where rating = 1) AS ratings1
       FROM reviews
       WHERE product_id = $1
     `,
