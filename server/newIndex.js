@@ -14,9 +14,9 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 // Get all reviews for one product
 app.get('/api/products/:id/reviews', (req, res) => {
   // console.time('getReq');
-  const { sort, stars } = req.query;
+  const { sort, stars, page } = req.query;
   const { id } = req.params;
-  getReviews(id, stars, sort)
+  getReviews(id, stars, sort, page)
     .then((results) => {
       // console.timeEnd('getReq');
       res.status(200).send(results);
