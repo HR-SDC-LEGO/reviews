@@ -1,7 +1,8 @@
+require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { getReviews } = require('../database/newIndex');
+const { getReviews, voteHelpful } = require('../database/newIndex');
 
 const app = express();
 const port = 3003;
@@ -10,13 +11,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
+// Get all reviews for one product
 app.get('/api/products/:id/reviews', (req, res) => {
-  // query function to get all reviews for one product
-  // on page load, sort defaults to 'Most relevant'
-  const { sort, stars } = req.query;
+  // console.time('getReq');
+  const { sort, stars, page } = req.query;
   const { id } = req.params;
-  getReviews(id, stars, sort)
+  getReviews(id, stars, sort, page)
     .then((results) => {
+      // console.timeEnd('getReq');
       res.status(200).send(results);
     })
     .catch((err) => {
@@ -24,8 +26,19 @@ app.get('/api/products/:id/reviews', (req, res) => {
     });
 });
 
-app.patch('/api/reviews/:reviewid', (req, res) => {
-  // query function to update review (upvotes/downvotes)
+// Update upvotes/downvotes for one review
+app.patch('/api/products/:id/reviews/:reviewId', (req, res) => {
+  console.time('patchReq');
+  const { id, reviewId } = req.params;
+  const { vote } = req.body;
+  voteHelpful(id, reviewId, vote)
+    .then((results) => {
+      console.timeEnd('patchReq');
+      res.status(200).send(results);
+    })
+    .catch((err) => {
+      res.status(404).send(err);
+    });
 });
 
 app.listen(port, () => {

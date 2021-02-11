@@ -1,12 +1,9 @@
 const { Pool } = require('pg');
-const pool = new Pool({
-  user: 'Jeremy',
-  database: 'lego',
-  password: '',
-  port: 5432
-});
+const { user } = require('./postgresUser');
 
-const getReviews = async (productId, stars, sort) => {
+const pool = new Pool(user);
+
+const getReviews = async (productId, stars, sort, page = 1) => {
   // page defaults to sort by 'most relevant' (using building_experience)
   let sortBy = 'building_experience';
   let sortStars;
@@ -26,9 +23,8 @@ const getReviews = async (productId, stars, sort) => {
     ascOrDesc = 'ASC';
   }
   if (sort === 'helpfulness') {
-    sortBy = 'rating';
+    sortBy = 'helpful';
   }
-
   if (stars) {
     sortStars = stars.split('');
   } else {
@@ -40,8 +36,11 @@ const getReviews = async (productId, stars, sort) => {
       WHERE product_id = $1
       AND rating = ANY ($2)
       ORDER BY ${sortBy} ${ascOrDesc}
+      LIMIT 4
+      OFFSET ${4 * (page - 1)}
       `,
-    values: [productId, sortStars]
+    values: [productId, sortStars],
+    name: 'getReviews'
   };
 
   const reviewsDataQuery = {
@@ -49,29 +48,44 @@ const getReviews = async (productId, stars, sort) => {
       SELECT AVG(rating) AS avgRating,
       AVG(play_experience) AS avgPlayExp,
       AVG(level_of_difficulty) AS avgDiff,
-      AVG(value_for_money) AS avgVal
+      AVG(value_for_money) AS avgVal,
+      COUNT(*) AS totalReviews,
+      COUNT(rating) filter (where rating = 5) AS ratings5,
+      COUNT(rating) filter (where rating = 4) AS ratings4,
+      COUNT(rating) filter (where rating = 3) AS ratings3,
+      COUNT(rating) filter (where rating = 2) AS ratings2,
+      COUNT(rating) filter (where rating = 1) AS ratings1
       FROM reviews
       WHERE product_id = $1
     `,
-    values: [productId]
+    values: [productId],
+    name: 'getReviewsData'
   };
 
-  const starsDataQuery = {
+  try {
+    const allReviews = await pool.query(reviewQuery);
+    const reviewsAvgs = await pool.query(reviewsDataQuery);
+    return [allReviews.rows, reviewsAvgs.rows];
+  } catch (err) {
+    return err;
+  }
+};
+
+const voteHelpful = async (id, reviewId, vote) => {
+  const query = {
     text: `
-      SELECT rating, count(rating) FROM reviews
+      UPDATE reviews
+      SET ${vote} = ${vote} + 1
       WHERE product_id = $1
-      GROUP BY rating
+      AND review_id = $2
     `,
-    values: [productId]
+    values: [id, reviewId]
   };
-
-  const allReviews = await pool.query(reviewQuery);
-  const reviewsAvgs = await pool.query(reviewsDataQuery);
-  const starsTotals = await pool.query(starsDataQuery);
-
-  return [allReviews.rows, reviewsAvgs.rows, starsTotals.rows];
+  const results = await pool.query(query);
+  return results;
 };
 
 module.exports = {
-  getReviews
+  getReviews,
+  voteHelpful
 };
