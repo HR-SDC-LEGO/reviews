@@ -1,10 +1,7 @@
 const { Pool } = require('pg');
-const pool = new Pool({
-  user: 'Jeremy',
-  database: 'lego',
-  password: '',
-  port: 5432
-});
+const { user } = require('./postgresUser');
+
+const pool = new Pool(user);
 
 const getReviews = async (productId, stars, sort, page = 1) => {
   // page defaults to sort by 'most relevant' (using building_experience)
