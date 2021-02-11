@@ -5,11 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon server/index.js",
-    "build": "webpack --watch",
-    "mysqlFile": "mysql -u root -p < schema.sql",
-    "generateData": "node ./generateData/FileData.js",
-    "mysql": "mysql -u root -p"
+    "start": "node server/newIndex.js",
+    "build": "webpack --watch"
   },
   "repository": {
     "type": "git",
