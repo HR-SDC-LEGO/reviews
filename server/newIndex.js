@@ -8,8 +8,14 @@ const app = express();
 const port = 3003;
 
 app.use(bodyParser.json());
+app.use('/products/:id', express.static(`${__dirname}/../client/dist`));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client/dist')));
+
+app.get('/loaderio-c2825bb5d464eb4c46922cdcfa19e419', (req, res) => {
+  res.statusCode = 200;
+  res.download('./server/loaderio-c2825bb5d464eb4c46922cdcfa19e419.txt');
+});
 
 // Get all reviews for one product
 app.get('/api/products/:id/reviews', (req, res) => {
